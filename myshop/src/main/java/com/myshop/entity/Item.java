@@ -4,7 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-import com.myshop.constant.itemSellStatus;
+import com.myshop.constant.ItemSellStatus;
 
 @Entity
 @Table(name="item")	//테이블 명 설정
@@ -12,7 +12,7 @@ import com.myshop.constant.itemSellStatus;
 @Setter
 @ToString
 public class Item {
-	//not null이 아닐때는 필드 타입을 객체로 지정해야 한다. int -> Integer
+	//not null이 아닐때는 필드 타입을 객체로 지정해야 한다. ex)int -> Integer
 	
 	@Id
 	@Column(name="item_id")
@@ -33,7 +33,7 @@ public class Item {
 	private String itemDetail;
 	
 	@Enumerated(EnumType.STRING)
-	private itemSellStatus itemSellStatus;
+	private ItemSellStatus itemSellStatus;
 	
 	private LocalDateTime regTime;
 	
