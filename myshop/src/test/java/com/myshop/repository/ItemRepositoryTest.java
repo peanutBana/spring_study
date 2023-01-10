@@ -1,5 +1,6 @@
 package com.myshop.repository;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.test.context.TestPropertySource;
 
 import com.myshop.constant.ItemSellStatus;
@@ -30,8 +32,8 @@ class ItemRepositoryTest {
 //		item.setUpdateTime(LocalDateTime.now());
 //		
 //		Item savedItem = itemRepository.save(item);		//data insert
+//
 //		
-//		System.out.println(savedItem.toString());
 //	}
 	
 	public void createItemTest() {
@@ -47,7 +49,6 @@ class ItemRepositoryTest {
 			item.setUpdateTime(LocalDateTime.now());
 			
 			Item savedItem = itemRepository.save(item);		//data insert
-			
 		}
 	}
 	
@@ -80,27 +81,68 @@ class ItemRepositoryTest {
 //			System.out.println(item.toString());
 //		}
 //	}
-	
-	@Test
-	@DisplayName("상품가격 내림차순")
-	public void findByPriceLessThanOrderByPriceDesc() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(10005);
-		for(Item item : itemList) {
-			System.out.println(item.toString());
-		}
-	}
+//	
+//	@Test
+//	@DisplayName("상품가격 내림차순")
+//	public void findByPriceLessThanOrderByPriceDesc() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(10005);
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
 	
 	
 	//Quiz
+	
 	@Test
-	@DisplayName("상품가격 내림차순")
-	public void findByPriceLessThanOrderByPriceDesc() {
+	@DisplayName("Quiz1")
+	public void findByItemNmAndItemSellStatus() {
 		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(10005);
+		List<Item> itemList = itemRepository.findByItemNmAndItemSellStatus("테스트 상품1", ItemSellStatus.SELL);
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
 	
+	@Test
+	@DisplayName("Quiz2")
+	public void findByPriceBetween() {
+		this.createItemTest();    //item 테이블에 insert
+		List<Item> itemList = itemRepository.findByPriceBetween(10004, 10008);
+		for(Item item : itemList) {
+			System.out.println(item.toString());
+		}
+	}
+	
+	@Test
+	@DisplayName("Quiz3")
+	public void findByRegTimeAfter() {
+		this.createItemTest();    //item 테이블에 insert
+		List<Item> itemList = itemRepository.findByRegTimeAfter(LocalDateTime.of(2023,1,1,12,12,44));
+		for(Item item : itemList) {
+			System.out.println(item.toString());
+		}
+	}
+	
+	@Test
+	@DisplayName("Quiz4")
+	public void findByItemSellStatusIsNotNull() {
+		this.createItemTest();    //item 테이블에 insert
+		List<Item> itemList = itemRepository.findByItemSellStatusIsNotNull();
+		for(Item item : itemList) {
+			System.out.println(item.toString());
+		}
+	}
+	
+	@Test
+	@DisplayName("Quiz5")
+	public void findByItemDetailEndingWith() {
+		this.createItemTest();    //item 테이블에 insert
+		List<Item> itemList = itemRepository.findByItemDetailEndingWith("설명1");
+		for(Item item : itemList) {
+			System.out.println(item.toString());
+		}
+	}
+
 }
