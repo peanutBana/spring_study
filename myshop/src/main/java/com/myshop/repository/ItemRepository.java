@@ -16,18 +16,18 @@ import com.myshop.entity.Item;
 public interface ItemRepository extends JpaRepository<Item, Long>{
 	
 	//select * from item where item_nm = ?
-	List<Item> findByItemNm(String itemNm);
+//	List<Item> findByItemNm(String itemNm);
 	
 	//select * from item where item_nm = ? or item_Deatil = ?
-	List<Item> findByItemNmOrItemDetail(String itemNm, String itemDetail);
+//	List<Item> findByItemNmOrItemDetail(String itemNm, String itemDetail);
 	
 	//select * from item where price < ? 
-	List<Item> findByPriceLessThan(Integer price);
+//	List<Item> findByPriceLessThan(Integer price);
 	
 	//select * from item where price < ? order by price desc 
-	List<Item> findByPriceLessThanOrderByPriceDesc(Integer price);
+//	List<Item> findByPriceLessThanOrderByPriceDesc(Integer price);
 	
-	//QUIZ
+	//QUIZ1
 	
 //	List<Item> findByItemNmAndItemSellStatus(String ItemNm, ItemSellStatus iss);
 //	List<Item> findByPriceBetween(int price, int price2);
@@ -35,13 +35,24 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 //	List<Item> findByItemSellStatusIsNotNull();
 //	List<Item> findByItemDetailEndingWith(String ItemDeatil);
 	
+	
+//	@Query("select i from Item i where i.itemDetail like %?1% order by i.price desc")
+//	List<Item> findByItemDetail(String itemDetail);
+	
 //	@Query("select i from Item i where i.itemDetail like %:itemDetail% order by i.price desc")
 //	List<Item> findByItemDetail(@Param("itemDetail")String itemDetail);
 	
-	@Query("select i from Item i where i.itemDetail like %?1% order by i.price desc")
-	List<Item> findByItemDetail(String itemDetail);
+//	@Query(value="select * from item i where i.item_detail like %:itemDetail% order  by i.price desc", nativeQuery=true)
+//	List<Item> findByItemDetailByNative(@Param("itemDetail")String itemDetail);
 	
-	@Query(value="select * from item i where i.item_detail like %:itemDetail% order  by i.price desc", nativeQuery=true)
-	List<Item> findByItemDetailByNative(@Param("itemDetail")String itemDetail);
+	//Quiz2
+	@Query("select i from Item i where i.price >= :itemPrice")
+	List<Item> findByPrice(@Param("itemPrice") int price);
+	
+//	@Query("select i from Item i where i.itemNm = ?1 and i.itemSellStatus = ?2")
+//	List<Item> findByItemNmAndItemSellStatus(String itemNm, ItemSellStatus iss);
+	
+	@Query("select i from Item i where i.itemNm = :itemNm and i.itemSellStatus = :itemSellStatus")
+	List<Item> findByItemNmAndItemSellStatus(@Param("itemNm") String itemNm, @Param("itemSellStatus") ItemSellStatus iss);
 	
 }

@@ -131,26 +131,44 @@ class ItemRepositoryTest {
 //	}
 	
 	
+//	@Test
+//	@DisplayName("@Query를 이용한 상품 조회 테스트")
+//	public void findByItemDetail() {
+//		this.createItemTest();
+//		List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+//	
+//	@Test
+//	@DisplayName("@NativeQuery를 이용한 상품 조회 테스트")
+//	public void findByItemDetailByNative() {
+//		this.createItemTest();
+//		List<Item> itemList = itemRepository.findByItemDetailByNative("테스트 상품 상세 설명");
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+	
 	@Test
-	@DisplayName("@Query를 이용한 상품 조회 테스트")
-	public void findByItemDetail() {
+	@DisplayName("Quiz2-1")
+	public void findByPrice() {
 		this.createItemTest();
-		List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
+		List<Item> itemList = itemRepository.findByPrice(10005);
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
 	
 	@Test
-	@DisplayName("@NativeQuery를 이용한 상품 조회 테스트")
-	public void findByItemDetailByNative() {
+	@DisplayName("Quiz2-2")
+	public void findByItemNmAndItemSellStatus() {
 		this.createItemTest();
-		List<Item> itemList = itemRepository.findByItemDetailByNative("테스트 상품 상세 설명");
+		List<Item> itemList = itemRepository.findByItemNmAndItemSellStatus("테스트 상품1", ItemSellStatus.SELL);
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
-	
-	
 
 }
