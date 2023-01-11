@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.entity.Item;
@@ -26,19 +28,20 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 	List<Item> findByPriceLessThanOrderByPriceDesc(Integer price);
 	
 	//QUIZ
-	//1
-	List<Item> findByItemNmAndItemSellStatus(String ItemNm, ItemSellStatus iss);
 	
-	//2
-	List<Item> findByPriceBetween(int price, int price2);
+//	List<Item> findByItemNmAndItemSellStatus(String ItemNm, ItemSellStatus iss);
+//	List<Item> findByPriceBetween(int price, int price2);
+//	List<Item> findByRegTimeAfter(LocalDateTime regTime);
+//	List<Item> findByItemSellStatusIsNotNull();
+//	List<Item> findByItemDetailEndingWith(String ItemDeatil);
 	
-	//3
-	List<Item> findByRegTimeAfter(LocalDateTime regTime);
+//	@Query("select i from Item i where i.itemDetail like %:itemDetail% order by i.price desc")
+//	List<Item> findByItemDetail(@Param("itemDetail")String itemDetail);
 	
-	//4
-	List<Item> findByItemSellStatusIsNotNull();
+	@Query("select i from Item i where i.itemDetail like %?1% order by i.price desc")
+	List<Item> findByItemDetail(String itemDetail);
 	
-	//5
-	List<Item> findByItemDetailEndingWith(String ItemDeatil);
+	@Query(value="select * from item i where i.item_detail like %:itemDetail% order  by i.price desc", nativeQuery=true)
+	List<Item> findByItemDetailByNative(@Param("itemDetail")String itemDetail);
 	
 }

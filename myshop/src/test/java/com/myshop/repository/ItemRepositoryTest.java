@@ -32,10 +32,7 @@ class ItemRepositoryTest {
 //		item.setUpdateTime(LocalDateTime.now());
 //		
 //		Item savedItem = itemRepository.save(item);		//data insert
-//
-//		
-//	}
-	
+//	}	
 	public void createItemTest() {
 			
 		for(int i=1; i<=10; i++) {
@@ -51,7 +48,6 @@ class ItemRepositoryTest {
 			Item savedItem = itemRepository.save(item);		//data insert
 		}
 	}
-	
 //	@Test
 //	@DisplayName("상품명 조회 테스트")
 //	public void findByItemNmTest() {
@@ -61,7 +57,6 @@ class ItemRepositoryTest {
 //			System.out.println(item.toString());
 //		}
 //	}
-//	
 //	@Test
 //	@DisplayName("상품명, 상품상세설명 or 테스트")
 //	public void findByItemNmOrItemDetail() {
@@ -70,8 +65,6 @@ class ItemRepositoryTest {
 //		for(Item item : itemList) {
 //			System.out.println(item.toString());
 //		}
-//	}
-//	
 //	@Test
 //	@DisplayName("상품가격 N원보다 작은 item")
 //	public void findByPriceLessThan() {
@@ -81,7 +74,6 @@ class ItemRepositoryTest {
 //			System.out.println(item.toString());
 //		}
 //	}
-//	
 //	@Test
 //	@DisplayName("상품가격 내림차순")
 //	public void findByPriceLessThanOrderByPriceDesc() {
@@ -92,57 +84,73 @@ class ItemRepositoryTest {
 //		}
 //	}
 	
-	
 	//Quiz
+//	@Test
+//	@DisplayName("Quiz1")
+//	public void findByItemNmAndItemSellStatus() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByItemNmAndItemSellStatus("테스트 상품1", ItemSellStatus.SELL);
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+//	//	@DisplayName("Quiz2")
+//	public void findByPriceBetween() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByPriceBetween(10004, 10008);
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+//	@Test
+//	@DisplayName("Quiz3")
+//	public void findByRegTimeAfter() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByRegTimeAfter(LocalDateTime.of(2023,1,1,12,12,44));
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+//	@Test
+//	@DisplayName("Quiz4")
+//	public void findByItemSellStatusIsNotNull() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByItemSellStatusIsNotNull();
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+//	@Test
+//	@DisplayName("Quiz5")
+//	public void findByItemDetailEndingWith() {
+//		this.createItemTest();    //item 테이블에 insert
+//		List<Item> itemList = itemRepository.findByItemDetailEndingWith("설명1");
+//		for(Item item : itemList) {
+//			System.out.println(item.toString());
+//		}
+//	}
+	
 	
 	@Test
-	@DisplayName("Quiz1")
-	public void findByItemNmAndItemSellStatus() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByItemNmAndItemSellStatus("테스트 상품1", ItemSellStatus.SELL);
+	@DisplayName("@Query를 이용한 상품 조회 테스트")
+	public void findByItemDetail() {
+		this.createItemTest();
+		List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
 	
 	@Test
-	@DisplayName("Quiz2")
-	public void findByPriceBetween() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByPriceBetween(10004, 10008);
+	@DisplayName("@NativeQuery를 이용한 상품 조회 테스트")
+	public void findByItemDetailByNative() {
+		this.createItemTest();
+		List<Item> itemList = itemRepository.findByItemDetailByNative("테스트 상품 상세 설명");
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
 	
-	@Test
-	@DisplayName("Quiz3")
-	public void findByRegTimeAfter() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByRegTimeAfter(LocalDateTime.of(2023,1,1,12,12,44));
-		for(Item item : itemList) {
-			System.out.println(item.toString());
-		}
-	}
 	
-	@Test
-	@DisplayName("Quiz4")
-	public void findByItemSellStatusIsNotNull() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByItemSellStatusIsNotNull();
-		for(Item item : itemList) {
-			System.out.println(item.toString());
-		}
-	}
-	
-	@Test
-	@DisplayName("Quiz5")
-	public void findByItemDetailEndingWith() {
-		this.createItemTest();    //item 테이블에 insert
-		List<Item> itemList = itemRepository.findByItemDetailEndingWith("설명1");
-		for(Item item : itemList) {
-			System.out.println(item.toString());
-		}
-	}
 
 }
