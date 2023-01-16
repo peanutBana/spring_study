@@ -50,7 +50,7 @@ public class MemberController {
     	  return "member/memberFrom";
       }
       
-      return "redirect: /";
+      return "redirect:/";
       //redirect를 쓰는 이유는
       //1. URL의 변화여부가 필요할 때.
       //2. 다음 새로운 요청 url을 보낼 때 최초요청 url은 유효하지 않고 이 두 요청은 전혀 다른 요청을 수행한다.
