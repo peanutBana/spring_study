@@ -8,14 +8,14 @@ import com.myshop.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service			//service 클래스의 역할
-@Transactional		
+@Service					//service 클래스의 역할
+@Transactional				//서비스 클래스에서 로직을 처리하다 에러 발생시 수행 이전상태로 되돌려준다. 
 @RequiredArgsConstructor
 public class MemberService {
 	private final MemberRepository memberRepository;	//의존성 주입
 	
 	public Member saveMember(Member member) {
-		
+		validateDuplicateMember(member);	//증복체크 후 insert
 		return memberRepository.save(member);		//member 테이블에 Insert
 	}
 	
