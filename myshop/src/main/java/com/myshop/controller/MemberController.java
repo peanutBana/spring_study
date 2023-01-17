@@ -1,5 +1,6 @@
 package com.myshop.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myshop.dto.MemberFormDto;
 import com.myshop.entity.Member;
@@ -37,19 +39,19 @@ public class MemberController {
    //post방식 request
    @PostMapping(value = "/new")
    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-	   //@Valid : 유혀성을 검증하려는 객체 앞에 붙인다.
-	   //BindingResult : 유효성 검증 후에 결과를 넣어준다.
-	   
-	   if(bindingResult.hasErrors()) {
-		   return "member/memberForm";
-	   }
-	   
+      //@Valid : 유혀성을 검증하려는 객체 앞에 붙인다.
+      //BindingResult : 유효성 검증 후에 결과를 넣어준다.
+      
+      if(bindingResult.hasErrors()) {
+         return "member/memberForm";
+      }
+      
       try {
-    	  Member member = Member.createMember(memberFormDto, passwordEncoder);
+         Member member = Member.createMember(memberFormDto, passwordEncoder);
           memberService.saveMember(member);
       }catch(IllegalStateException e) {
-    	  model.addAttribute("errorMessage",e.getMessage());
-    	  return "member/memberForm";
+         model.addAttribute("errorMessage",e.getMessage());
+         return "member/memberForm";
       }
       
       return "redirect:/";
@@ -61,15 +63,25 @@ public class MemberController {
       return "member/memberLoginForm";
    }
    
-   @GetMapping(value = "/login2")
-   public String loginMember2(HttpServletResponse response, HttpSession sessionß) {
+   private final SessionManager sessionManager;
+   
+//   쿠키, 세션 테스트
+   @PostMapping(value = "/login2")
+   public String loginMember2(HttpServletResponse response, HttpSession session, @RequestParam String email) {
+      System.out.println("email: " + email);
+      Cookie idCookie = new Cookie("userCookieId", email);
+      response.addCookie(idCookie);
+      
+      session.setAttribute("userSessionId", email);      //email을 session에 저장
+      sessionManager.createSession("sessionPerson", response);
+      
       return "member/memberLoginForm";
    }
    
    //로그인 실패시 
    @GetMapping(value = "/login/error")
    public String loginError(Model model) {
-	   model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
+      model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
       return "member/memberLoginForm";
    }
    
