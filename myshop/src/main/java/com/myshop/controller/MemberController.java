@@ -39,7 +39,7 @@ public class MemberController {
 	   //BindingResult : 유효성 검증 후에 결과를 넣어준다.
 	   
 	   if(bindingResult.hasErrors()) {
-		   return "member/memberFrom";
+		   return "member/memberForm";
 	   }
 	   
       try {
@@ -47,7 +47,7 @@ public class MemberController {
           memberService.saveMember(member);
       }catch(IllegalStateException e) {
     	  model.addAttribute("errorMessage",e.getMessage());
-    	  return "member/memberFrom";
+    	  return "member/memberForm";
       }
       
       return "redirect:/";
