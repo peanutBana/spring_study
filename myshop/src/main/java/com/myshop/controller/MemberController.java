@@ -1,5 +1,7 @@
 package com.myshop.controller;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,10 +53,26 @@ public class MemberController {
       }
       
       return "redirect:/";
-      //redirect를 쓰는 이유는
-      //1. URL의 변화여부가 필요할 때.
-      //2. 다음 새로운 요청 url을 보낼 때 최초요청 url은 유효하지 않고 이 두 요청은 전혀 다른 요청을 수행한다.
-      //3. 시스템에 변화가 생기는 요청(로그인, 회원가입, 글쓰기)의 경우
    }
+   
+   //로그인 화면
+   @GetMapping(value = "/login")
+   public String loginMember() {
+      return "member/memberLoginForm";
+   }
+   
+   @GetMapping(value = "/login2")
+   public String loginMember2(HttpServletResponse response, HttpSession sessionß) {
+      return "member/memberLoginForm";
+   }
+   
+   //로그인 실패시 
+   @GetMapping(value = "/login/error")
+   public String loginError(Model model) {
+	   model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
+      return "member/memberLoginForm";
+   }
+   
+   
    
 }
