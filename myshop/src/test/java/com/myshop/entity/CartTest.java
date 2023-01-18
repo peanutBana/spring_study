@@ -3,6 +3,7 @@ package com.myshop.entity;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.junit.jupiter.api.AfterEach;
@@ -47,18 +48,21 @@ class CartTest {
 		
 		return Member.createMember(member, passwordEncoder);
 	}
-	
 	@Test
-	@DisplayName("장바구니 회원 인테테 매핑 조회 테스")
-	public void findCartAndMemberTest() {
-		Member member = createMember();
-		memberRepository.save(member);
-		
-		Cart cart = new Cart();
-		cart.setMember(member);
-		cartRepository.save(cart);
-		
-		em.flush();		//트랜잭션이 끝날 때데이터 베이스에 반
-		em.clear();		//영속성 컨텍스트를 비워준다. => 실제 db에서 엔티티가 장바구니를 가지고 올 때 회원 엔티티도 같이 가지고오는지 보기위
-	}
+	   @DisplayName("장바구니 회원 엔티티 매핑 조회 테스트")
+	   public void findCartAndMemberTest() {
+	      Member member = createMember();
+	      memberRepository.save(member);
+	      
+	      Cart cart = new Cart();
+	      cart.setMember(member);
+	      cartRepository.save(cart);
+	      
+	      em.flush();   //트랜잭션이 끝날때 데이터 베이스에 반영
+	      em.clear();   //영속성 컨텍스트를 비워준다 -> 실제 데이터베이스에서 장바구니를 엔티티를 가지고 올 때 회원 엔티티도 같이 가지고 오는지 보기위해
+	      
+	      Cart savedCart = cartRepository.findById(cart.getId())
+	                                               .orElseThrow(EntityNotFoundException::new);
+	      assertEquals(savedCart.getMember().getId(), member.getId());
+	   }
 }
