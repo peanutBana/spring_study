@@ -66,17 +66,17 @@ public class MemberController {
    private final SessionManager sessionManager;
    
 //   쿠키, 세션 테스트
-   @PostMapping(value = "/login2")
-   public String loginMember2(HttpServletResponse response, HttpSession session, @RequestParam String email) {
-      System.out.println("email: " + email);
-      Cookie idCookie = new Cookie("userCookieId", email);
-      response.addCookie(idCookie);
-      
-      session.setAttribute("userSessionId", email);      //email을 session에 저장
-      sessionManager.createSession("sessionPerson", response);
-      
-      return "member/memberLoginForm";
-   }
+//   @PostMapping(value = "/login")
+//   public String loginMember2(HttpServletResponse response, HttpSession session, @RequestParam String email) {
+//      System.out.println("email: " + email);
+//      Cookie idCookie = new Cookie("userCookieId", email);
+//      response.addCookie(idCookie);
+//      
+//      session.setAttribute("userSessionId", email);      //email을 session에 저장
+//      sessionManager.createSession("sessionPerson", response);
+//      
+//      return "member/memberLoginForm";
+//   }
    
    //로그인 실패시 
    @GetMapping(value = "/login/error")
