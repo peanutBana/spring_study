@@ -18,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.repository.ItemRepository;
 import com.myshop.repository.MemberRepository;
+import com.myshop.repository.OrderItemRepository;
 import com.myshop.repository.OrderRepository;
 @SpringBootTest
 @Transactional
@@ -34,6 +35,9 @@ class OrderTest {
 	
 	@Autowired
 	MemberRepository memberRepository;
+	
+	@Autowired
+	OrderItemRepository orderItemRepository;
 	
 	public Item createItemTest() {	
 		
@@ -107,6 +111,16 @@ class OrderTest {
 		em.flush();
 	}
 	
-	
-
+	@Test
+	@DisplayName("지연 로딩 테스트")
+	public void lazyLoadingTest() {
+		Order order = this.createOrder();
+		Long orderItemId = order.getOrderItems().get(0).getId();
+		
+		em.flush();
+		em.clear();
+		
+		OrderItem orderItem = orderItemRepository.findById(orderItemId)
+												 .orElseThrow(EntityNotFoundException::new);
+	}	
 }

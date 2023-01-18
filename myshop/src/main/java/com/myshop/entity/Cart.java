@@ -16,7 +16,7 @@ public class Cart {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne	//부모테이블 Member와 1대1 관계 명시
+	@OneToOne(fetch = FetchType.LAZY)	//부모테이블 Member와 1대1 관계 명시
 	@JoinColumn(name = "member_id")
 	private Member member;
 	
