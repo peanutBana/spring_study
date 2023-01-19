@@ -11,7 +11,7 @@ import com.myshop.constant.ItemSellStatus;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity{
 	//not null이 아닐때는 필드 타입을 객체로 지정해야 한다. ex)int -> Integer
 	
 	@Id
@@ -34,9 +34,5 @@ public class Item {
 	
 	@Enumerated(EnumType.STRING)
 	private ItemSellStatus itemSellStatus;
-	
-	private LocalDateTime regTime;
-	
-	private LocalDateTime updateTime;
 	
 }
