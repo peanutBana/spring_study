@@ -1,10 +1,14 @@
 package com.myshop.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myshop.dto.ItemFormDto;
+import com.myshop.dto.ItemSearchDto;
+import com.myshop.entity.Item;
 import com.myshop.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -98,9 +104,18 @@ public class ItemController {
 		return "redirect:/";
 	}
 	
-	@GetMapping(value="/admin/items")
-	public String itemManage() {
+	@GetMapping(value={"/admin/items", "/admin/items/{page}"})	//페이지 번호가 없는 경우와 있는 경우 두가지를 mapping
+	public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);	//조회할 페이지의 번호, 한 페이지당 조회할 데이터의 갯수
+		
+		Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
+		
+		model.addAttribute("items", items);
+		model.addAttribute("itemSearchDto", itemSearchDto);
+		model.addAttribute("maxPage", 5);
+		
 		return "item/itemMng";
+		
 	}
 	
 }
