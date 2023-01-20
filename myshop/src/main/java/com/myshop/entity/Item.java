@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import com.myshop.constant.ItemSellStatus;
+import com.myshop.dto.ItemFormDto;
 
 @Entity
 @Table(name="item")	//테이블 명 설정
@@ -34,5 +35,13 @@ public class Item extends BaseEntity{
 	
 	@Enumerated(EnumType.STRING)
 	private ItemSellStatus itemSellStatus;
+	
+	public void updateItem(ItemFormDto itemFormDto) {
+		this.itemNm = itemFormDto.getItemNm();
+		this.price = itemFormDto.getPrice();
+		this.stockNumber = itemFormDto.getStockNumber();
+		this.itemDetail = itemFormDto.getItemDetail();
+		this.itemSellStatus = itemFormDto.getItemSellStatus();
+	}
 	
 }
