@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myshop.dto.ItemFormDto;
@@ -26,6 +27,7 @@ import com.myshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
+//@RestController
 @RequiredArgsConstructor
 public class ItemController {
 	
@@ -104,18 +106,20 @@ public class ItemController {
 		return "redirect:/";
 	}
 	
-	@GetMapping(value={"/admin/items", "/admin/items/{page}"})	//페이지 번호가 없는 경우와 있는 경우 두가지를 mapping
+	@GetMapping(value = {"/admin/items", "/admin/items/{page}"}) //페이지 번호가 없는 경우와 있는 경우 2가지를 매핑
 	public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);	//조회할 페이지의 번호, 한 페이지당 조회할 데이터의 갯수
+		
+		//url경로에 페이지가 있으면 해당 페이지를 조회하도록 하고 페이지 번호가 없으면 0페이지를 조회하도록 한다.
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3); //of(조회할 페이지의 번호, 한페이지당 조회할 데이터의 갯수)
 		
 		Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
 		
 		model.addAttribute("items", items);
 		model.addAttribute("itemSearchDto", itemSearchDto);
-		model.addAttribute("maxPage", 5);
+		model.addAttribute("maxPage", 5); //상품 관리 메뉴 하단에 보여줄 최대 페이지 번호
 		
 		return "item/itemMng";
-		
+//		return items;
 	}
 	
 }
