@@ -94,12 +94,13 @@ public class ItemService {
 			itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
 		}
 		
-		return item.getId();	
+		return item.getId();
+		
 	}
 	
 	//상품 리스트 가져오기
 	@Transactional(readOnly = true)
-	public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+	public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
 		return itemRepository.getAdminItemPage(itemSearchDto, pageable);
 	}
 
