@@ -12,6 +12,7 @@ import org.thymeleaf.util.StringUtils;
 
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.dto.ItemSearchDto;
+import com.myshop.dto.MainItemDto;
 import com.myshop.entity.Item;
 import com.myshop.entity.QItem;
 import com.querydsl.core.QueryResults;
@@ -80,5 +81,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 		
 		
 		return new PageImpl<>(content, pageable, total);
+	}
+
+	@Override
+	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+		
+		return null;
 	}
 }

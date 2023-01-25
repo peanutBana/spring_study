@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ItemImgDto {
+	private Long id;
 	
 	private String imgName;
 	
