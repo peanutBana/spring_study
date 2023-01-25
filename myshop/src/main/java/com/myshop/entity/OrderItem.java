@@ -52,9 +52,7 @@ public class OrderItem extends BaseEntity{
 	}
 
 	//주문한 총 가격 구하기
-	public int getTotolPrice() {
-		
-		
+	public int getTotalPrice() {
 		return orderPrice * count;
 	}
 }
