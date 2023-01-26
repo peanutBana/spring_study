@@ -39,7 +39,7 @@ public class MemberController {
    //post방식 request
    @PostMapping(value = "/new")
    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-      //@Valid : 유혀성을 검증하려는 객체 앞에 붙인다.
+      //@Valid : 유효성을 검증하려는 객체 앞에 붙인다.
       //BindingResult : 유효성 검증 후에 결과를 넣어준다.
       
       if(bindingResult.hasErrors()) {
