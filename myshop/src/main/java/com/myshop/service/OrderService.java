@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import com.myshop.dto.OrderDto;
 import com.myshop.dto.OrderHistDto;
@@ -32,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderService {
 	private final ItemRepository itemRepository;
 	private final MemberRepository memberRepository;
-	private final OrderRepository orderRepositorty;
+	private final OrderRepository orderRepository;
 	private final ItemImgRepository itemImgRepositorty;
 	
 	public Long order(OrderDto orderDto, String email) {
@@ -46,7 +47,7 @@ public class OrderService {
 		orderItemList.add(orderItem);
 		
 		Order order = Order.createOrder(member, orderItemList);
-		orderRepositorty.save(order);
+		orderRepository.save(order);
 		
 		return order.getId();
 	}
@@ -54,8 +55,8 @@ public class OrderService {
 	@Transactional(readOnly = true)
 	public Page<OrderHistDto> getOrderList(String email, Pageable pageable) {
 		
-		List<Order> orders = orderRepositorty.findOrders(email, pageable); //주문 목록
-		Long totalCount= orderRepositorty.countOrder(email); //총 주문 목록 갯수
+		List<Order> orders = orderRepository.findOrders(email, pageable); //주문 목록
+		Long totalCount= orderRepository.countOrder(email); //총 주문 목록 갯수
 		
 		List<OrderHistDto> orderHistDtos = new ArrayList<>();
 		
@@ -74,6 +75,31 @@ public class OrderService {
 		}
 		
 		return new PageImpl<OrderHistDto>(orderHistDtos, pageable, totalCount);
+	}
+	
+	//현재 로그인한 사용자와 주문데이터를 생성한 사용자가 같은지 검사
+	@Transactional(readOnly=true)
+	public boolean validateOrder(Long orderId, String email) {
+		Member curMember = memberRepository.findByEmail(email);
+		Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+		Member savedMember = order.getMember();
+		
+		if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())) {
+			return false;
+		}
+		return true;
+	}
+	
+	//주문 취소
+	public void cancelOrder(Long orderId) {
+		Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+		order.cancelOrder();
+	}
+	
+	//주문 삭제
+	public void deleteOrder(Long orderId) {
+		Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+		orderRepository.delete(order);
 	}
 	
 }
