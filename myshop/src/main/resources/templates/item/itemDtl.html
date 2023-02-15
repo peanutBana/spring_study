@@ -14,6 +14,7 @@
    $(document).ready(function() {
       calculateTotalPrice();
       
+      //id="count"인 요소의 값에 변화가 있을 때 실행되는 함수 calculateTotalPrice() 
       $("#count").change(function(){
          calculateTotalPrice();
       })
@@ -107,7 +108,7 @@
    <div layout:fragment="content"
       style="margin-left: 25%; margin-right: 25%">
       
-      <input type="hidden" id="itemId" th:value="${item.id}">
+      <input type="hidden" id="itemId" th:value="${item.id}">	<!-- @PathVariable로 받아온 id를 유지 -->
 
       <div class="d-flex">
          <div class="repImgDiv">

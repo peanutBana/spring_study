@@ -125,7 +125,7 @@ public class ItemController {
 	}
 	
 	//상품 상세 페이지
-	@GetMapping(value = "/item/{itemId}")
+	@GetMapping(value = "/item/{itemId}")	//url로 받아온 itemId를 @PathVariable를 이용하여 함수로 넘김 
 	public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
 		ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
 		model.addAttribute("item", itemFormDto);

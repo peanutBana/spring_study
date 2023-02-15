@@ -96,7 +96,6 @@ public class ItemService {
 		}
 		
 		return item.getId();
-		
 	}
 	
 	//상품 리스트 가져오기
