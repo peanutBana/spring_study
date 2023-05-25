@@ -29,7 +29,7 @@ public class MemberController {
     @PostMapping("/member/join")
     public String join(@ModelAttribute MemberDTO memberDTO){
         System.out.println(memberDTO);
-//        memberService.save(memberDTO);
+        memberService.join(memberDTO);
         return null;
     }
 
