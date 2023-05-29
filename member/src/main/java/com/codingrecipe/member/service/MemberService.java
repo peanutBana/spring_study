@@ -47,4 +47,14 @@ public class MemberService {
         }
         return memberDTOList;
     }
+
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity> memberEntity = memberRepository.findById(id);
+        if(memberEntity.isPresent()){
+            //optional 객체를 꺼낼 때 entity.get()
+            return MemberDTO.toMemberDTO(memberEntity.get());
+        }else{
+            return null;
+        }
+    }
 }
