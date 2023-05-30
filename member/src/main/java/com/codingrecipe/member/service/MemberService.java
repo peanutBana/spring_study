@@ -3,7 +3,9 @@ package com.codingrecipe.member.service;
 import com.codingrecipe.member.dto.MemberDTO;
 import com.codingrecipe.member.entity.MemberEntity;
 import com.codingrecipe.member.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -56,5 +58,29 @@ public class MemberService {
         }else{
             return null;
         }
+    }
+
+    public MemberDTO updateForm(String myEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(myEmail);
+        if(optionalMemberEntity.isPresent()){
+            return MemberDTO.toMemberDTO(optionalMemberEntity.get());
+        }else{
+            return null;
+        }
+    }
+
+    public void update(MemberDTO memberDTO) {
+        memberRepository.save(MemberEntity.toUpdateMemberEntity(memberDTO));
+    }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    @GetMapping("/member/logout")
+    public String logout(HttpSession session){
+        //로그아웃
+        session.invalidate();
+        return "index";
     }
 }
